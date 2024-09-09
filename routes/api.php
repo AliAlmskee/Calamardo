@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DrinkController;
 use App\Http\Controllers\FoodController;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -20,13 +22,17 @@ use Illuminate\Support\Facades\Route;
     Route::middleware('auth:sanctum')->group(function () {
         Route::put('/updateProfile',[AuthController::class,'updateProfile']);
         Route::post('/logout',[AuthController::class,'logout']);
+        Route::apiResource('drinks', FoodController::class)->except(['index', 'show','update']);
+
         Route::apiResource('foods', FoodController::class)->except(['index', 'show','update']);
         Route::post('/update_food/{id}',[FoodController::class,'update']);
-
+        Route::post('/update_food/{id}',[DrinkController::class,'update']);
     });
 
 
     Route::apiResource('foods', FoodController::class)->only(['index', 'show']);
+    Route::apiResource('drinks',DrinkController::class)->only(['index', 'show']);
+
     Route::post('/login',[AuthController::class,'login']);
 
     Route::get('/image/{path}',[FoodController::class,'getImage']);
